@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.web.dao.BookDao">
+
+    <insert id="addBook" >
+        insert into  t_book(`name` , `author` , `price` , `sales` , `stock` , `img_path`) values(#{name},#{author},#{price},#{sales},#{stock},#{img_path})
+    </insert>
+    <delete id="deleteBookById">
+        delete from t_book where id=#{id}
+    </delete>
+    <!--`name` , `author` , `price` , `sales` , `stock` , `img_path`-->
+    <update id="updateBook">
+update t_book
+<set>
+    <if test="#{name}!=null&amp;#{name}!=''">
+        name=#{name},
+    </if>
+<if test="#{author}!=null&amp;#{author}!=''">
+    author=#{author},
+
+</if>
+<if test="#{price}!=null">
+    price=#{price},
+</if>
+    <if test="#{sales}!=null">
+        sales=#{sales},
+    </if>
+<if test="#{stock}!=null">
+    stock=#{stock},
+</if>
+<if test="#{img_path}!=null&amp;#{img_path}!=''">
+    img_path=#{img_path}
+</if>
+</set>
+<where>
+    id=#{id}
+</where>
+    </update>
+
+
+    <resultMap id="bookForOne" type="book">
+        <id property="id" column="id" ></id>
+        <result property="name" column="name"></result>
+        <result property="author" column="author"></result>
+         <result property="price" column="price"></result>
+        <result property="sales" column="sales"></result>
+        <result property="stock" column="stock"></result>
+        <result property="img_path" column="img_path"></result>
+    </resultMap>
+    <select id="queryBookById" resultMap="bookForOne">
+        select * from t_book <where>
+id=#{id}
+    </where>
+    </select>
+
+    <!--将图书进行分页-->
+    <select id="queryBookBypage" resultMap="bookForOne">
+        select * from t_book
+    </select>
+    <!--查询图书价格-->
+    <select id="queryBookBypageAndPrice" resultMap="bookForOne">
+        select * from t_book where price between  #{min}  and #{max}
+    </select>
+
+
+</mapper>

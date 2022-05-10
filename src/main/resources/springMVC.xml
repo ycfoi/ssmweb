@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context= "http://www.springframework.org/schema/context"
+       xmlns:mvc= "http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+">
+    <!--开启自动扫描，只扫描Controller注解-->
+<context:component-scan base-package="com.atguigu.web" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+</context:component-scan>
+<mvc:view-controller path="/user/regist" view-name="/user/regist"></mvc:view-controller>
+<!--    <mvc:view-controller path="/" view-name="/client/index"></mvc:view-controller>-->
+<mvc:view-controller path="/user/regist_success" view-name="user/regist_success"></mvc:view-controller>
+    <mvc:view-controller path="/user/login" view-name="user/login"></mvc:view-controller>
+    <mvc:view-controller path="/cart/cart" view-name="cart/cart"></mvc:view-controller>
+   <mvc:view-controller path="/manager/manager" view-name="manager/manager"></mvc:view-controller>
+  <mvc:view-controller path="/manager/book_edit" view-name="manager/book_edit"></mvc:view-controller>
+  <mvc:view-controller path="/error/poor" view-name="error/poor"></mvc:view-controller>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="MangerInterceptor" class="com.atguigu.web.filter.mangerInterceptor">
+
+    </bean>
+    <mvc:interceptors>
+<mvc:interceptor>
+    <mvc:mapping path="/*/manager*"/>
+    <ref bean="MangerInterceptor"></ref>
+</mvc:interceptor>
+    </mvc:interceptors>
+</beans>

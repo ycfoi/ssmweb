@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.web.dao.UserDao">
+
+    <select id="queryBynameAndPassword" resultMap="userMap">
+        select * from t_user <where>
+        <if test="#{username}!=null&amp;#{username}!=''">
+            username=#{username}
+        </if>
+<if test="#{password}!=null&amp;#{password}!=''">
+  and  password=#{password}
+</if>
+
+    </where>
+    </select>
+    <select id="queryByname" resultMap="userMap">
+        select * from t_user where username=#{name}
+    </select>
+
+    <insert id="saveUser">
+        insert into t_user (username,password,email) values(#{username},#{password},#{email})
+    </insert>
+    <resultMap id="userMap" type="user">
+        <id column="id" property="id"></id>
+        <result property="username" column="username"></result>
+   <result column="password" property="password"></result>
+     <result property="email" column="email"></result>
+    </resultMap>
+</mapper>

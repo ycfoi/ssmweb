@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.web.dao.OrderDao">
+
+<insert id="saveOrder">
+    insert into t_order (order_id,create_time,price,status,user_id) values(#{orderId},#{createTime},#{price},#{status},#{userId})
+</insert>
+
+    <select id="queryOrders" resultMap="orderMap">
+        select  * from t_order
+    </select>
+    <resultMap id="orderMap" type="com.atguigu.web.pojo.Order">
+        <id column="order_id" property="orderId"></id>
+       <result column="create_time" property="createTime"></result>
+        <result column="price" property="price"></result>
+       <result column="user_id" property="userId"></result>
+      <result column="status" property="status"></result>
+     </resultMap>
+
+    <update id="changeOrderStatus">
+        update  t_order  set status=#{status} where order_id=#{orderId}
+    </update>
+    <select id="queryOrdersByUserId" resultMap="orderMap">
+        select * from t_order  where user_id=#{userId}
+    </select>
+
+
+</mapper>
